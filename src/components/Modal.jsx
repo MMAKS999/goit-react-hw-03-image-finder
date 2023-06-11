@@ -1,11 +1,29 @@
-import React from 'react';
 
-export const Modal = () => {
-  return (
-    <div className="overlay">
+import ReactDOM from 'react-dom';
+import React, { useEffect } from 'react';
+import "../styles.css"
+export const Modal = ({ showModal, closeModal, selectedImage }) => {
+  useEffect(() => {
+    const handleKeyDown = event => {
+      if (event.keyCode === 27) {
+          closeModal();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [closeModal]);
+  
+  if (!showModal) return null;
+  return ReactDOM.createPortal(
+    <div className="overlay" onClick={closeModal}>
       <div className="modal">
-        <img src="" alt="" />
+        <img src={selectedImage} alt="" />
       </div>
-    </div>
+    </div>,
+    document.getElementById('portal')
   );
 };

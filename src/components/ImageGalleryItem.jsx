@@ -1,16 +1,14 @@
 import React from 'react';
 
-export const ImageGalleryItem = ({foundArray}) => (
-  <div>
-    {foundArray && <div> hi </div>}
-  </div>
-  
+export const ImageGalleryItem = ({
+  webformatURL,
+  largeImageURL,
+  tags,
+  onSelectImage,
+}) => (
+  <li className="ImageGalleryItem">
+    <button onClick={() => onSelectImage(largeImageURL)}>
+      <img src={webformatURL} alt={tags} className="ImageGalleryItem-image" />
+    </button>
+  </li>
 );
-  // <ul className="gallery">
-  //   {foundArray &&
-  //     foundArray.map((id, webformatURL, largeImageURL) => (
-  //       <li className="gallery-item" key={id}>
-  //         <img src={webformatURL} alt={id} />
-  //       </li>
-  //     ))}
-  // </ul>

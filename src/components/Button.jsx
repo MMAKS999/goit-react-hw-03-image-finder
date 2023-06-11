@@ -1,3 +1,8 @@
 import React from 'react';
 
-export const Button = ({}) => <div>{foundArray && <div> Load more </div>}</div>;
+export const Button = ({ onLoadMore, loading }) => (
+  <button type="button" onClick={onLoadMore} className="Button">
+    {' '}
+    {loading ? 'Loading...' : 'load more'}{' '}
+  </button>
+);
