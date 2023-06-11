@@ -7,8 +7,8 @@ export const ImageGalleryItem = ({
   onSelectImage,
 }) => (
   <li className="ImageGalleryItem">
-    <button onClick={() => onSelectImage(largeImageURL)}>
+    <div onClick={() => onSelectImage(largeImageURL)}>
       <img src={webformatURL} alt={tags} className="ImageGalleryItem-image" />
-    </button>
+    </div>
   </li>
 );
