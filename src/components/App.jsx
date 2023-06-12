@@ -54,7 +54,7 @@ export class App extends Component {
   // робота з API
   async getImagesApi(searchName, page) {
     const result = await fetch(
-      `https://pixabay.com/api/?q=${searchName}&page=${page}&key=${this.key}&image_type=photo&orientation=horizontal&per_page=100`
+      `https://pixabay.com/api/?q=${searchName}&page=${page}&key=${this.key}&image_type=photo&orientation=horizontal&per_page=12`
     );
     if (result.ok) {
       return await result.json();

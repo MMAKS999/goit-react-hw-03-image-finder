@@ -2,6 +2,7 @@
 import ReactDOM from 'react-dom';
 import React, { useEffect } from 'react';
 import "../styles.css"
+import PropTypes from 'prop-types';
 export const Modal = ({ showModal, closeModal, selectedImage }) => {
   useEffect(() => {
     const handleKeyDown = event => {
@@ -26,4 +27,10 @@ export const Modal = ({ showModal, closeModal, selectedImage }) => {
     </div>,
     document.getElementById('portal')
   );
+};
+
+Modal.propTypes = {
+  showModal: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  selectedImage: PropTypes.string.isRequired,
 };

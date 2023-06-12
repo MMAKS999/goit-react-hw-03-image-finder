@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 
 export const ImageGalleryItem = ({
   webformatURL,
@@ -12,3 +13,9 @@ export const ImageGalleryItem = ({
     </div>
   </li>
 );
+ImageGalleryItem.propTypes = {
+  webformatURL: PropTypes.string.isRequired,
+  largeImageURL: PropTypes.string.isRequired,
+  tags: PropTypes.string.isRequired,
+  onSelectImage: PropTypes.func.isRequired,
+};

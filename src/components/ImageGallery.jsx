@@ -1,5 +1,6 @@
 import React from 'react';
 import { ImageGalleryItem } from './ImageGalleryItem';
+import PropTypes from 'prop-types';
 export const ImageGallery = ({ foundArray, onSelectImage }) => {
   return (
     <ul className="ImageGallery">
@@ -17,4 +18,12 @@ export const ImageGallery = ({ foundArray, onSelectImage }) => {
   );
 };
 
-// виділити лі як компонент який буде закидатись в ul як дитина яка буде проходитись мапом в  юл
+ImageGallery.propTypes = {
+  foundArray: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    webformatURL: PropTypes.string.isRequired,
+    largeImageURL: PropTypes.string.isRequired,
+    tags: PropTypes.string.isRequired,
+  })).isRequired,
+  onSelectImage: PropTypes.func.isRequired,
+};
