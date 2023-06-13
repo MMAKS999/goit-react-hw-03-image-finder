@@ -4,6 +4,7 @@ import { Button } from './Button';
 import { Component } from 'react';
 import { Modal } from './Modal';
 import { Loader } from './Loader';
+import {getImagesApi} from '../services/getImageApi'
 import '../styles.css';
 
 export class App extends Component {
@@ -23,7 +24,6 @@ export class App extends Component {
 
   // створення нового масиву обєктів з потрібних властивостей з масиву обєктів Арі
   filterFoundArray(array) {
-    console.log(array);
     return array.map(({ id, webformatURL, largeImageURL, tags }) => ({
       id,
       webformatURL,
@@ -51,24 +51,13 @@ export class App extends Component {
       this.getImages(searchName, page);
     }
   }
-  // робота з API
-  async getImagesApi(searchName, page) {
-    const result = await fetch(
-      `https://pixabay.com/api/?q=${searchName}&page=${page}&key=${this.key}&image_type=photo&orientation=horizontal&per_page=12`
-    );
-    if (result.ok) {
-      return await result.json();
-    }
-    throw new Error(`no information on request ${searchName}`);
-  }
-
   getImages = async (searchName, page) => {
     if (!searchName) {
       return;
     }
     this.setState({ loading: true });
     try {
-      const { hits, totalHits } = await this.getImagesApi(searchName, page);
+      const { hits, totalHits } = await getImagesApi(searchName, page);
       if (hits.length === 0) {
         this.setState({ isEmpty: true });
         return;
@@ -90,7 +79,6 @@ export class App extends Component {
 
   selectImage = image => {
     this.setState({ selectedImage: image, showModal: true });
-    console.log({ image });
   };
 
   onLoadMore = () => {
@@ -98,31 +86,28 @@ export class App extends Component {
   };
 
   closeModal = () => {
-    this.setState({ showModal: false });
+    this.setState({ showModal: false, selectImage:"" });
   };
 
   render() {
-    console.log(this.state.foundArray.length);
     const { foundArray, loading, error, isEmpty, isVisible, totalHits,showModal,selectedImage } =
       this.state;
     const displayedPages = totalHits / foundArray.length;
     return (
       <div className="App">
-        <Modal
-          showModal={showModal}
+        {showModal && <Modal
           selectedImage={selectedImage}
           closeModal={this.closeModal}
-        />
+        />}
         <SearchBar onSubmit={this.changeSearch} />
         {isEmpty && <h2> Sorry. There are no images...</h2>}
         {error && <h2>{error.message}</h2>}
-        {loading && <div>loading...</div>}
         {loading && <Loader />}
 
-        <ImageGallery
+        {foundArray.length > 0 && <ImageGallery
           foundArray={foundArray}
           onSelectImage={this.selectImage}
-        />
+        />}
         {displayedPages > 1 && isVisible && (
           <Button onLoadMore={this.onLoadMore} loading={loading} />
         )}
@@ -131,5 +116,3 @@ export class App extends Component {
   }
 }
 
-// створити модалку в порталі
-// прописати тайпи і перебрати код

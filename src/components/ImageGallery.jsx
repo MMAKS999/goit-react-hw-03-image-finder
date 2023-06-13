@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 export const ImageGallery = ({ foundArray, onSelectImage }) => {
   return (
     <ul className="ImageGallery">
-      {foundArray &&
-        foundArray.map(({ id, webformatURL, largeImageURL, tags }) => (
+      { foundArray.map(({ id, webformatURL, largeImageURL, tags }) => (
           <ImageGalleryItem
             key={id}
             webformatURL={webformatURL}
@@ -20,7 +19,7 @@ export const ImageGallery = ({ foundArray, onSelectImage }) => {
 
 ImageGallery.propTypes = {
   foundArray: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     webformatURL: PropTypes.string.isRequired,
     largeImageURL: PropTypes.string.isRequired,
     tags: PropTypes.string.isRequired,

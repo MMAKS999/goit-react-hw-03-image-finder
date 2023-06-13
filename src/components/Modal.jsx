@@ -1,36 +1,44 @@
 
+import React from 'react';
 import ReactDOM from 'react-dom';
-import React, { useEffect } from 'react';
-import "../styles.css"
 import PropTypes from 'prop-types';
-export const Modal = ({ showModal, closeModal, selectedImage }) => {
-  useEffect(() => {
-    const handleKeyDown = event => {
-      if (event.keyCode === 27) {
-          closeModal();
-      }
-    };
 
-    document.addEventListener('keydown', handleKeyDown);
+export class Modal extends React.Component {
+  static propTypes = {
+    closeModal: PropTypes.func.isRequired,
+    selectedImage: PropTypes.string.isRequired,
+  };
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
 
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [closeModal]);
-  
-  if (!showModal) return null;
-  return ReactDOM.createPortal(
-    <div className="overlay" onClick={closeModal}>
-      <div className="modal">
-        <img src={selectedImage} alt="" />
-      </div>
-    </div>,
-    document.getElementById('portal')
-  );
-};
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
 
-Modal.propTypes = {
-  showModal: PropTypes.bool.isRequired,
-  closeModal: PropTypes.func.isRequired,
-  selectedImage: PropTypes.string.isRequired,
-};
+  handleKeyDown = event => {
+    if (event.keyCode === 27) {
+      this.props.closeModal();
+    }
+  };
+  handleOverlayClick = event => {
+    const { closeModal } = this.props;
+    if (event.target === event.currentTarget) {
+      // Натискання відбулось на overlay
+      closeModal();
+    }
+  };
+
+  render() {
+    const { selectedImage } = this.props;
+
+    return ReactDOM.createPortal(
+      <div className="overlay" onClick={this.handleOverlayClick}>
+        <div className="modal">
+          <img src={selectedImage} alt="" />
+        </div>
+      </div>,
+      document.getElementById('portal')
+    );
+  }
+}
